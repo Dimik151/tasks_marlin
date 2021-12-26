@@ -1,51 +1,30 @@
 <?php 
 
-$persons = [
-    ['name' => 'Sunny A.',
-     'language' => 'UI/UX Expert',
-     'img_src' => 'sunny.png',
-     'img_alt' => 'Sunny A.',
-     'prof' => 'Lead Author',
-     'twitter_url' => 'https://twitter.com/@myplaneticket',
-     'twitter_title' => '@myplaneticket',
-     'bootstrap_url' => 'https://wrapbootstrap.com/user/myorange',
-     'bootstrap_title' => 'Contact Sunny',
-     'banned' => FALSE,
-    ],
-    ['name' => ' Jos K.',
-     'language' => 'ASP.NET Developer',
-     'img_src' => 'josh.png',
-     'img_alt' => 'Jos K.',
-     'prof' => 'Partner &amp; Contributor',
-     'twitter_url' => 'https://twitter.com/@atlantez',
-     'twitter_title' => '@atlantez',
-     'bootstrap_url' => 'https://wrapbootstrap.com/user/Walapa',
-     'bootstrap_title' => 'Contact Jos',
-     'banned' => FALSE,
-    ],
-    ['name' => 'Jovanni L.',
-    'language' => 'PHP Developer',
-    'img_src' => 'jovanni.png',
-    'img_alt' => 'Jovanni Lo',
-    'prof' => 'Partner &amp; Contributor',
-    'twitter_url' => 'https://twitter.com/@lodev09',
-    'twitter_title' => '@lodev09',
-    'bootstrap_url' => 'https://wrapbootstrap.com/user/lodev09',
-    'bootstrap_title' => 'Contact Jovanni',
-    'banned' => TRUE,
-   ],
-   ['name' => 'Roberto R.',
-   'language' => 'Rails Developer',
-   'img_src' => 'roberto.png',
-   'img_alt' => 'Roberto R.',
-   'prof' => 'Partner &amp; Contributor',
-   'twitter_url' => 'https://twitter.com/@sildur',
-   'twitter_title' => '@sildur',
-   'bootstrap_url' => 'https://wrapbootstrap.com/user/sildur',
-   'bootstrap_title' => 'Contact Roberto',
-   'banned' => TRUE,
-  ],
-];
+// Структура таблицы |name|job|img_src|profession|twitter_url|boostrap_url|status_banned|
+
+$user_name = 'root';
+$user_pass = '';
+
+try {
+    $db = new PDO('mysql:host=localhost;dbname=tasks', $user_name, $user_pass);
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+}
+
+$persons = $db->query('SELECT * FROM persons');
+
+function contact ($name) 
+{
+    list($first_name, $surname) = explode(' ', $name);
+    return $first_name;
+}
+
+function site_login ($url)
+{
+    return mb_stristr($url, '@');
+}
+
 
 
 
@@ -88,21 +67,17 @@ $persons = [
                            <div class="d-flex flex-wrap demo demo-h-spacing mt-3 mb-3">
 
                             <?php foreach ($persons as $person) : ?>
-                            <?php if ($person['banned']) : ?>
-                                <div class="banned rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">
-                            <?php else : ?>
-                                <div class="rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">
-                            <?php endif ?>
-                                <img src="img/demo/authors/<?= $person['img_src'] ?>" alt="<?= $person['img_alt'] ?>" class="img-thumbnail img-responsive rounded-circle" style="width:5rem; height: 5rem;">
+                                <div class="<?= $person['status_banned'] ? 'banned ' : '' ?>rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">
+                                <img src="img/demo/authors/<?= $person['img_src'] ?>" alt="<?= $person['name'] ?>" class="img-thumbnail img-responsive rounded-circle" style="width:5rem; height: 5rem;">
                                 <div class="ml-2 mr-3">
                                 <h5 class="m-0">
-                                    <?= $person['name'] ?> (<?= $person['language'] ?>)
+                                    <?= $person['name'] ?> (<?= $person['Job'] ?>)
                                     <small class="m-0 fw-300">
-                                        <?= $person['prof'] ?>
+                                        <?= $person['profession'] ?>
                                     </small>
                                 </h5>
-                                <a href="<?= $person['twitter_url'] ?>" class="text-info fs-sm" target="_blank"><?= $person['twitter_title'] ?></a> -
-                                <a href="<?= $person['bootstrap_url'] ?>" class="text-info fs-sm" target="_blank" title="<?= $person['bootstrap_title'] ?>"><i class="fal fa-envelope"></i></a>
+                                <a href="<?= $person['twitter_url'] ?>" class="text-info fs-sm" target="_blank"><?= site_login($person['twitter_url']) ?></a> -
+                                <a href="<?= $person['bootstrap_url'] ?>" class="text-info fs-sm" target="_blank" title="Contact <?= contact($person['name']) ?>"><i class="fal fa-envelope"></i></a>
                                 </div>
                             </div>
                             <?php endforeach ?>
