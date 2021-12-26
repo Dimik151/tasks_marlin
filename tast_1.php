@@ -1,6 +1,9 @@
 <?php 
 
-$list = ['Reports', 'Analytics', 'Export', 'Storage'];
+$list = ['reports file' => 'Reports',
+         'analytics graphs' =>  'Analytics', 
+         'export download' => 'Export',
+         'storage' =>  'Storage'];
 
 
 
@@ -51,9 +54,9 @@ $list = ['Reports', 'Analytics', 'Export', 'Storage'];
                                         </div>
                                     </div>
                                     <ul id="js-list-msg" class="list-group px-2 pb-2 js-list-filter">
-                                        <?php foreach($list as $li) : ?>
+                                        <?php foreach($list as $tag => $li) : ?>
                                         <li class="list-group-item">
-                                            <span data-filter-tags="reports file"><?= $li ?></span>
+                                            <span data-filter-tags="<?= $tag ?>"><?= $li ?></span>
                                         </li>
                                         <?php endforeach ?>
                                     </ul>
