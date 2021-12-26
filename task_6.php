@@ -47,6 +47,9 @@ $persons = [
   ],
 ];
 
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -85,17 +88,21 @@ $persons = [
                            <div class="d-flex flex-wrap demo demo-h-spacing mt-3 mb-3">
 
                             <?php foreach ($persons as $person) : ?>
-                                <div class="<?= $person['status_banned'] ? 'banned ' : '' ?>rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">
-                                <img src="img/demo/authors/<?= $person['img_src'] ?>" alt="<?= $person['name'] ?>" class="img-thumbnail img-responsive rounded-circle" style="width:5rem; height: 5rem;">
+                            <?php if ($person['banned']) : ?>
+                                <div class="banned rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">
+                            <?php else : ?>
+                                <div class="rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">
+                            <?php endif ?>
+                                <img src="img/demo/authors/<?= $person['img_src'] ?>" alt="<?= $person['img_alt'] ?>" class="img-thumbnail img-responsive rounded-circle" style="width:5rem; height: 5rem;">
                                 <div class="ml-2 mr-3">
                                 <h5 class="m-0">
-                                    <?= $person['name'] ?> (<?= $person['Job'] ?>)
+                                    <?= $person['name'] ?> (<?= $person['language'] ?>)
                                     <small class="m-0 fw-300">
-                                        <?= $person['profession'] ?>
+                                        <?= $person['prof'] ?>
                                     </small>
                                 </h5>
-                                <a href="<?= $person['twitter_url'] ?>" class="text-info fs-sm" target="_blank"><?= site_login($person['twitter_url']) ?></a> -
-                                <a href="<?= $person['bootstrap_url'] ?>" class="text-info fs-sm" target="_blank" title="Contact <?= contact($person['name']) ?>"><i class="fal fa-envelope"></i></a>
+                                <a href="<?= $person['twitter_url'] ?>" class="text-info fs-sm" target="_blank"><?= $person['twitter_title'] ?></a> -
+                                <a href="<?= $person['bootstrap_url'] ?>" class="text-info fs-sm" target="_blank" title="<?= $person['bootstrap_title'] ?>"><i class="fal fa-envelope"></i></a>
                                 </div>
                             </div>
                             <?php endforeach ?>
