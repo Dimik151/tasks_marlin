@@ -1,51 +1,30 @@
 <?php 
 
-$persons = [
-    ['name' => 'Sunny A.',
-     'language' => 'UI/UX Expert',
-     'img_src' => 'sunny.png',
-     'img_alt' => 'Sunny A.',
-     'prof' => 'Lead Author',
-     'twitter_url' => 'https://twitter.com/@myplaneticket',
-     'twitter_title' => '@myplaneticket',
-     'bootstrap_url' => 'https://wrapbootstrap.com/user/myorange',
-     'bootstrap_title' => 'Contact Sunny',
-     'banned' => FALSE,
-    ],
-    ['name' => ' Jos K.',
-     'language' => 'ASP.NET Developer',
-     'img_src' => 'josh.png',
-     'img_alt' => 'Jos K.',
-     'prof' => 'Partner &amp; Contributor',
-     'twitter_url' => 'https://twitter.com/@atlantez',
-     'twitter_title' => '@atlantez',
-     'bootstrap_url' => 'https://wrapbootstrap.com/user/Walapa',
-     'bootstrap_title' => 'Contact Jos',
-     'banned' => FALSE,
-    ],
-    ['name' => 'Jovanni L.',
-    'language' => 'PHP Developer',
-    'img_src' => 'jovanni.png',
-    'img_alt' => 'Jovanni Lo',
-    'prof' => 'Partner &amp; Contributor',
-    'twitter_url' => 'https://twitter.com/@lodev09',
-    'twitter_title' => '@lodev09',
-    'bootstrap_url' => 'https://wrapbootstrap.com/user/lodev09',
-    'bootstrap_title' => 'Contact Jovanni',
-    'banned' => TRUE,
-   ],
-   ['name' => 'Roberto R.',
-   'language' => 'Rails Developer',
-   'img_src' => 'roberto.png',
-   'img_alt' => 'Roberto R.',
-   'prof' => 'Partner &amp; Contributor',
-   'twitter_url' => 'https://twitter.com/@sildur',
-   'twitter_title' => '@sildur',
-   'bootstrap_url' => 'https://wrapbootstrap.com/user/sildur',
-   'bootstrap_title' => 'Contact Roberto',
-   'banned' => TRUE,
-  ],
-];
+// Структура таблицы |name|job|img_src|profession|twitter_url|boostrap_url|status_banned|
+
+$user_name = 'root';
+$user_pass = '';
+
+try {
+    $db = new PDO('mysql:host=localhost;dbname=tasks', $user_name, $user_pass);
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+}
+
+$persons = $db->query('SELECT * FROM persons');
+
+function contact ($name) 
+{
+    list($first_name, $surname) = explode(' ', $name);
+    return $first_name;
+}
+
+function site_login ($url)
+{
+    return mb_stristr($url, '@');
+}
+
 
 ?>
 <!DOCTYPE html>
