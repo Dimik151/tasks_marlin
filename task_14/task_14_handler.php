@@ -26,7 +26,7 @@ header('Location: task_14.php');
 
 function veritify_user() {
     global $db;
-    $errros = '';
+    // $errros = '';
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -34,10 +34,10 @@ function veritify_user() {
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch();
     if (!$user){
-        $errros = "Неверное имя или пароль";
+        // $errros = "Неверное имя или пароль";
     }else{
         if (!password_verify($password, $user['password'])){
-            $errros = "Неверный пароль";
+            // $errros = "Неверный пароль";
         }else{
             return $user['email'];
         }
