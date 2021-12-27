@@ -9,14 +9,13 @@ $image_path = '/img/';
 if (isset($_FILES['file']) && ($_FILES['file']['error'] == UPLOAD_ERR_OK)) {
 
     $file = $_FILES['file'];
-    $newPath = $base_path . '/img/' . basename($file['name']);
     if (save_file($file)){
         $_SESSION['file_load'] = 'Файл успешно загружен';
         header('Location: task_16.php');
     }
 
 }else{
-    $_SESSION['file_load'] = "Файл не загржуен";
+    $_SESSION['file_load'] = "Файл не загружен";
     header('Location: task_16.php');
 }
 
