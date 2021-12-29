@@ -8,16 +8,14 @@ $image_path = '/img/';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $file = $_FILES['file'];
-    if (isset($_FILES['file'])) {
+    if (isset($_FILES['file']) && (in_array(UPLOAD_ERR_OK, $file['error']))) {
         if (save_file_arr($file)){
             $_SESSION['file_load'] = 'Файл успешно загружен';
-            header('Location: task_18.php');
         }
-    
     }else{
         $_SESSION['file_load'] = "Файл не загружен";
-        header('Location: task_18.php');
     }
+    header('Location: task_18.php');
 }
 
 if (isset($_GET['del'])){

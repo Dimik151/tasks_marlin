@@ -1,20 +1,6 @@
 <?php 
 
-$user_name = 'root';
-$user_pass = '';
-
-try {
-    $db = new PDO('mysql:host=localhost;dbname=tasks', $user_name, $user_pass);
-} catch (PDOException $e) {
-    print "Error!: " . $e->getMessage() . "<br/>";
-    exit();
-}
-
-
-$stmt = $db->prepare('INSERT INTO text (text) VALUES (?)');
-$stmt->execute([$_POST['text']]);
-
-// Нужно ли было делать проверку формы? 
+require_once('task_9_handler.php');
 
 ?>
 
@@ -29,14 +15,14 @@ $stmt->execute([$_POST['text']]);
         <meta name="description" content="Chartist.html">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
-        <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="css/vendors.bundle.css">
-        <link id="appbundle" rel="stylesheet" media="screen, print" href="css/app.bundle.css">
-        <link id="myskin" rel="stylesheet" media="screen, print" href="css/skins/skin-master.css">
-        <link rel="stylesheet" media="screen, print" href="css/statistics/chartist/chartist.css">
-        <link rel="stylesheet" media="screen, print" href="css/miscellaneous/lightgallery/lightgallery.bundle.css">
-        <link rel="stylesheet" media="screen, print" href="css/fa-solid.css">
-        <link rel="stylesheet" media="screen, print" href="css/fa-brands.css">
-        <link rel="stylesheet" media="screen, print" href="css/fa-regular.css">
+        <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="../css/vendors.bundle.css">
+        <link id="appbundle" rel="stylesheet" media="screen, print" href="../css/app.bundle.css">
+        <link id="myskin" rel="stylesheet" media="screen, print" href="../css/skins/skin-master.css">
+        <link rel="stylesheet" media="screen, print" href="../css/statistics/chartist/chartist.css">
+        <link rel="stylesheet" media="screen, print" href="../css/miscellaneous/lightgallery/lightgallery.bundle.css">
+        <link rel="stylesheet" media="screen, print" href="../css/fa-solid.css">
+        <link rel="stylesheet" media="screen, print" href="../css/fa-brands.css">
+        <link rel="stylesheet" media="screen, print" href="../css/fa-regular.css">
     </head>
     <body class="mod-bg-1 mod-nav-link ">
         <main id="js-page-content" role="main" class="page-content">
@@ -56,7 +42,18 @@ $stmt->execute([$_POST['text']]);
                         <div class="panel-content">
                             <div class="panel-content">
                                 <div class="form-group">
-                                    <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
+                                    <?php if (!empty($_SESSION['errors'])) : ?>
+                                    <div class="alert alert-danger fade show" role="alert">
+                                        <?= $_SESSION['errors'] ?>
+                                        <?php unset($_SESSION['errors']) ?>
+                                    </div>
+                                    <?php elseif(!empty($_SESSION['message'])) :?>
+                                    <div class="alert alert-info fade show" role="alert">
+                                        <?= $_SESSION['message'] ?>
+                                        <?php unset($_SESSION['message']) ?>
+                                    </div>
+                                    <?php endif ?>
+                                    <form action="task_9_handler.php" method="POST">
                                         <label class="form-label" for="simpleinput">Text</label>
                                         <input type="text" id="simpleinput" class="form-control" name="text">
                                         <button class="btn btn-success mt-3">Submit</button>
@@ -70,8 +67,8 @@ $stmt->execute([$_POST['text']]);
         </main>
         
 
-        <script src="js/vendors.bundle.js"></script>
-        <script src="js/app.bundle.js"></script>
+        <script src="../js/vendors.bundle.js"></script>
+        <script src="../js/app.bundle.js"></script>
         <script>
             // default list filter
             initApp.listFilter($('#js_default_list'), $('#js_default_list_filter'));
