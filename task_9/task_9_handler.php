@@ -45,6 +45,8 @@ function save_db_text($text){
 
 function where_db_text($text){
     global $pdo;
+    // тут поиск по всей таблице. 
+    // Можно заменить на поиск в строке
     $text = $pdo->quote($text);
     $text = strtr($text, ['_' => '\_', '%' => '\%']);
     $stmt = $pdo->query("SELECT * FROM text WHERE text LIKE $text");
